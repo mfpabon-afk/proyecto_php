@@ -1,0 +1,157 @@
+/* ==========================================================================
+   ESTILOS DE LA CALCULADORA FLOTANTE CON HISTORIAL (css/calculadora.css)
+   ========================================================================== */
+
+.calc-floating-wrapper {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+/* WIDGET CALCULADORA FLOTANTE */
+.calc-widget {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  padding: 2rem;
+  width: 340px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6),
+              0 0 30px rgba(99, 102, 241, 0.15);
+  transform: translateY(-5px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.calc-widget:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7),
+              0 0 40px rgba(236, 72, 153, 0.2);
+}
+
+/* PANTALLA DIGITAL */
+.calc-display {
+  background: #090d16;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  text-align: right;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.calc-display-prev {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  min-height: 1.2rem;
+}
+
+.calc-display-main {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* TECLADO GRID */
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.calc-btn {
+  padding: 1rem 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  color: var(--color-text-main);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calc-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.calc-btn-op {
+  background: rgba(99, 102, 241, 0.2);
+  color: var(--color-primary);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.calc-btn-op:hover {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.calc-btn-equal {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: #ffffff;
+  border: none;
+  grid-column: span 2;
+}
+
+/* PANEL HISTORIAL FLOTANTE */
+.calc-history-panel {
+  flex: 1;
+  min-width: 280px;
+  max-width: 360px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 1.75rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.calc-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.calc-history-list {
+  list-style: none;
+  max-height: 280px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.calc-history-item {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--color-border);
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: var(--color-success);
+}
+
+.btn-clear-history {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-clear-history:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
