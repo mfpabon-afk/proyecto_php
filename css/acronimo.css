@@ -1,0 +1,50 @@
+/* Estilos para el Widget Generador de Acrónimos */
+.acronimo-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.acronimo-result-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+.acronimo-display-main {
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: 4px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 1rem 0;
+  text-transform: uppercase;
+}
+
+.acronimo-letters-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.acronimo-letter-pill {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--color-border);
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.acronimo-letter-pill strong {
+  color: var(--color-accent);
+  font-size: 1.2rem;
+}

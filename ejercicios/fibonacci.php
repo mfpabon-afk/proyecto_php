@@ -17,21 +17,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numero'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ejercicio 2 - Sucesión de Fibonacci o Factorial</title>
+  <title>Ejercicio 2 - Fibonacci o Factorial</title>
   <link rel="stylesheet" href="../css/ejercicios.css">
+  <link rel="stylesheet" href="../css/fibonacci.css">
 </head>
 <body>
 
   <header class="header-ejercicio">
     <a href="../index.php" class="btn-volver">&larr; Volver al Menú Principal</a>
-    <span>Ejercicio 02 / 04</span>
+    <span>Ejercicio 02</span>
   </header>
 
   <main class="container-ejercicio">
     <section class="card-form">
-      <h1 class="titulo-ejercicio-page">Sucesión de Fibonacci / Factorial</h1>
+      <h1 class="titulo-ejercicio-page">Fibonacci & Factorial</h1>
       <p class="descripcion-ejercicio">
-        Seleccione la operación e ingrese un entero positivo para generar la serie matemática iterativa.
+        Ingrese un entero $n$ y seleccione la función matemática a evaluar.
       </p>
 
       <form action="fibonacci.php" method="POST">
@@ -52,27 +53,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numero'])) {
         <div class="grupo-campo">
           <label for="operacion">Operación:</label>
           <select id="operacion" name="operacion" class="select-control" required>
-            <option value="fibonacci" <?php echo $operacionSeleccionada === 'fibonacci' ? 'selected' : ''; ?>>Sucesión de Fibonacci (Primeros n términos)</option>
-            <option value="factorial" <?php echo $operacionSeleccionada === 'factorial' ? 'selected' : ''; ?>>Cálculo Factorial (n!)</option>
+            <option value="fibonacci" <?php echo $operacionSeleccionada === 'fibonacci' ? 'selected' : ''; ?>>Sucesión de Fibonacci</option>
+            <option value="factorial" <?php echo $operacionSeleccionada === 'factorial' ? 'selected' : ''; ?>>Factorial (n!)</option>
           </select>
         </div>
 
-        <button type="submit" class="btn-submit">Calcular Serie</button>
+        <button type="submit" class="btn-submit">Generar Resultado</button>
       </form>
 
       <?php if ($resCalculo !== null): ?>
-        <article class="box-resultado" aria-live="polite">
-          <h3>&check; Resultado Obtenido</h3>
-          <div class="resultado-item">
-            <strong>Operación Ejecutada:</strong> <?php echo ucfirst($operacionSeleccionada); ?> (n = <?php echo $numeroIngresado; ?>)
-          </div>
-          <div class="resultado-item">
-            <strong>Resultado / Serie:</strong><br>
-            <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; margin-top: 0.5rem; word-break: break-all; font-family: monospace;">
+        <div style="margin-top: 2rem;">
+          <h3>Resultado (n = <?php echo $numeroIngresado; ?>)</h3>
+          
+          <?php if ($operacionSeleccionada === 'fibonacci'): ?>
+            <div class="fib-sequence-grid">
+              <?php foreach ($resCalculo['serie'] as $i => $val): ?>
+                <div class="fib-term-card">
+                  <span class="fib-term-index">f(<?php echo $i; ?>)</span>
+                  <span class="fib-term-value"><?php echo $val; ?></span>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          <?php else: ?>
+            <div class="fact-step-box" style="margin-top:1rem;">
               <?php echo htmlspecialchars($resCalculo['resultado']); ?>
             </div>
-          </div>
-        </article>
+          <?php endif; ?>
+        </div>
       <?php endif; ?>
     </section>
   </main>
