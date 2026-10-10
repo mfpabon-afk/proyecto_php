@@ -1,0 +1,51 @@
+/* Renderizador Jerárquico de Nodos */
+.tree-visual-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background: #090d16;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  overflow-x: auto;
+  margin-top: 1.5rem;
+}
+
+.tree-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.node-badge {
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  margin: 0.5rem;
+}
+
+.node-badge.null {
+  background: var(--color-bg-card);
+  color: var(--color-text-muted);
+  border: 1px dashed var(--color-border);
+}
+
+.node-children {
+  display: flex;
+  gap: 1.5rem;
+  border-top: 2px solid var(--color-border);
+  padding-top: 0.75rem;
+}
+
+.child-branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

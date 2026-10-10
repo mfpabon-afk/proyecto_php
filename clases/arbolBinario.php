@@ -1,8 +1,4 @@
 <?php
-/**
- * Clase NodoArbol y ArbolBinario
- * Reconstruye un árbol binario a partir de sus recorridos.
- */
 class NodoArbol {
     public string $valor;
     public ?NodoArbol $izq = null;

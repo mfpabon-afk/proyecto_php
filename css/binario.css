@@ -1,0 +1,40 @@
+/* Estilos para el Visor Digital de Bits */
+.bit-display-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.bit-box {
+  width: 50px;
+  height: 60px;
+  background: #090d16;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  font-family: monospace;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.bit-box.active {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+}
+
+.binary-steps-list {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}

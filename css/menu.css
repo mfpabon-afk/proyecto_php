@@ -1,5 +1,5 @@
 /* ==========================================================================
-   HOJA DE ESTILOS DEL MENÚ PRINCIPAL (css/menu.css)
+   ESTILOS DEL MENÚ PRINCIPAL E INICIO (css/menu.css)
    ========================================================================== */
 
 :root {
@@ -111,7 +111,7 @@ body {
   transform: scale(1.25);
 }
 
-/* OVERLAY Y PANEL SLIDE DE DERECHA A IZQUIERDA */
+/* PANEL LATERAL DE DERECHA A IZQUIERDA */
 .menu-overlay {
   position: fixed;
   inset: 0;
@@ -137,12 +137,12 @@ body {
   display: flex;
   flex-direction: column;
   z-index: 1000;
-  transform: translateX(100%); /* Fuera de la pantalla a la derecha */
+  transform: translateX(100%);
   transition: var(--transition-panel);
 }
 
 .menu-checkbox:checked ~ .panel-menu {
-  transform: translateX(0); /* Entra a la izquierda */
+  transform: translateX(0);
 }
 
 .menu-checkbox:checked ~ .menu-overlay {
@@ -180,7 +180,7 @@ body {
   background-color: var(--color-border);
 }
 
-/* LISTA DE EJERCICIOS Y PREVISUALIZACIÓN A LA IZQUIERDA EN HOVER */
+/* LISTA DE EJERCICIOS Y PREVISUALIZACIÓN HOVER */
 .nav-ejercicios {
   flex: 1;
 }
@@ -238,7 +238,7 @@ body {
   font-size: 0.95rem;
 }
 
-/* CAJA DE PREVISUALIZACIÓN DE IMAGEN AL LADO IZQUIERDO */
+/* PREVISUALIZACIÓN EN EL LADO IZQUIERDO */
 .preview-box {
   position: absolute;
   right: 100%;
@@ -294,7 +294,7 @@ body {
   font-weight: 500;
 }
 
-/* HERO Y SECCIÓN CENTRAL */
+/* SECCIÓN PRINCIPAL */
 .main-content {
   flex: 1;
   max-width: 1100px;
