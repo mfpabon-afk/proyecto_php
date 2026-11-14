@@ -24,7 +24,7 @@ class Layout {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($tituloPagina) ?> | Macintosh PHP OS</title>
+    <title><?= htmlspecialchars($tituloPagina) ?> | Macintosh PHP </title>
     <link rel="stylesheet" href="<?= htmlspecialchars($basePath) ?>css/style.css">
 </head>
 <body>
@@ -51,7 +51,7 @@ class Layout {
         <div class="mac-menubar-right">
             <span><?= htmlspecialchars($tituloPagina) ?></span>
             <span>|</span>
-            <span>PHP POO OS</span>
+            <span>PHP POO </span>
         </div>
     </nav>
 
