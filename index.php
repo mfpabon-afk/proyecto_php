@@ -84,7 +84,7 @@ renderHeader('Menú Principal', 'inicio', '');
 ?>
 
 <div class="kaleido-header-banner">
-    <h1> TALLER PHP POO // SELECTOR DE MÓDULOS</h1>
+    <h1> TALLER PHP POO // SELECTOR DE MÓDULOS</h1>
     <span>Selecciona un ejercicio presionando <strong>OK</strong></span>
 </div>
 
