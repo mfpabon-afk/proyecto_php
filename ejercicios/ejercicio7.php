@@ -39,8 +39,7 @@ class Calculadora {
 
         $_SESSION['historial_calculadora'][] = [
             'operacion' => "{$num1} {$simbolo} {$num2}",
-            'resultado' => $resultado,
-            'hora'      => date('H:i:s')
+            'resultado' => $resultado
         ];
 
         return $resultado;
@@ -131,7 +130,6 @@ renderHeader('07. CALCULADORA', 'MÓDULO 07 // OPERACIONES E HISTORIAL EN SESIÓ
         <table class="tactical-table">
             <thead>
                 <tr>
-                    <th>Hora</th>
                     <th>Operación</th>
                     <th>Resultado</th>
                 </tr>
@@ -139,7 +137,6 @@ renderHeader('07. CALCULADORA', 'MÓDULO 07 // OPERACIONES E HISTORIAL EN SESIÓ
             <tbody>
                 <?php foreach ($historial as $item): ?>
                     <tr>
-                        <td><?= htmlspecialchars($item['hora']) ?></td>
                         <td><strong><?= htmlspecialchars($item['operacion']) ?></strong></td>
                         <td style="color:var(--accent-red); font-weight:700;"><?= htmlspecialchars((string)$item['resultado']) ?></td>
                     </tr>
