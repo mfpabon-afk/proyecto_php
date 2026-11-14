@@ -43,7 +43,7 @@ class ArbolBinario {
         if (!empty($pre) && !empty($in)) {
             $this->validarConsistencia($pre, $in);
             $this->metodoUsado = (!empty($post))
-                ? "Preorden + Inorden (priorizado por defecto al ingresar los tres recorridos)"
+                ? "Preorden + Inorden (por defecto)"
                 : "Preorden + Inorden";
             $this->raiz = $this->desdePreIn($pre, $in);
         } elseif (!empty($post) && !empty($in)) {
@@ -74,14 +74,12 @@ class ArbolBinario {
     }
 
     private function desdePreIn(array $pre, array $in): ?NodoArbol {
-        if (empty($pre) || empty($in)) {
-            return null;
-        }
+        if (empty($pre) || empty($in)) return null;
 
         $valorRaiz = $pre[0];
         $idx = array_search($valorRaiz, $in, true);
         if ($idx === false) {
-            throw new InvalidArgumentException("La combinación de Preorden e Inorden no forma un árbol binario válido.");
+            throw new InvalidArgumentException("La combinación de Preorden e Inorden no forma un árbol válido.");
         }
 
         $nodo = new NodoArbol($valorRaiz);
@@ -96,14 +94,12 @@ class ArbolBinario {
     }
 
     private function desdePostIn(array $post, array $in): ?NodoArbol {
-        if (empty($post) || empty($in)) {
-            return null;
-        }
+        if (empty($post) || empty($in)) return null;
 
         $valorRaiz = end($post);
         $idx = array_search($valorRaiz, $in, true);
         if ($idx === false) {
-            throw new InvalidArgumentException("La combinación de Postorden e Inorden no forma un árbol binario válido.");
+            throw new InvalidArgumentException("La combinación de Postorden e Inorden no forma un árbol válido.");
         }
 
         $nodo = new NodoArbol($valorRaiz);
@@ -118,19 +114,15 @@ class ArbolBinario {
     }
 
     private function desdePrePost(array $pre, array $post): ?NodoArbol {
-        if (empty($pre)) {
-            return null;
-        }
+        if (empty($pre)) return null;
 
         $nodo = new NodoArbol($pre[0]);
-        if (count($pre) === 1) {
-            return $nodo;
-        }
+        if (count($pre) === 1) return $nodo;
 
         $raizIzq = $pre[1];
         $idx = array_search($raizIzq, $post, true);
         if ($idx === false || $idx >= count($post) - 1) {
-            throw new InvalidArgumentException("La combinación de Preorden y Postorden no forma un árbol binario válido.");
+            throw new InvalidArgumentException("La combinación de Preorden y Postorden no forma un árbol válido.");
         }
 
         $tamIzq = $idx + 1;
@@ -173,20 +165,18 @@ class ArbolBinario {
     }
 
     public function renderizarSVG(): string {
-        if (!$this->raiz) {
-            return '';
-        }
+        if (!$this->raiz) return '';
 
         $totalNodos = $this->contarNodos($this->raiz);
         $altura     = $this->obtenerAltura($this->raiz);
 
-        $pasoX   = 70;
-        $pasoY   = 85;
-        $margenX = 50;
-        $margenY = 50;
+        $pasoX   = 65;
+        $pasoY   = 80;
+        $margenX = 45;
+        $margenY = 45;
 
-        $anchoSVG = max(460, $totalNodos * $pasoX + $margenX * 2);
-        $altoSVG  = max(230, $altura * $pasoY + $margenY);
+        $anchoSVG = max(420, $totalNodos * $pasoX + $margenX * 2);
+        $altoSVG  = max(220, $altura * $pasoY + $margenY);
 
         $coords = [];
         $columnaActual = 0;
@@ -196,7 +186,7 @@ class ArbolBinario {
         $nodos  = '';
         $this->generarElementosSVG($this->raiz, $coords, $lineas, $nodos);
 
-        return "<svg width='100%' viewBox='0 0 {$anchoSVG} {$altoSVG}' style='max-height:440px; background:#15202B; border:1px solid #FF4655;'>
+        return "<svg width='100%' viewBox='0 0 {$anchoSVG} {$altoSVG}' style='max-height:380px; background:#FFFFFF; border:2px solid #000000;'>
                     {$lineas}
                     {$nodos}
                 </svg>";
@@ -244,21 +234,21 @@ class ArbolBinario {
         if ($nodo->izquierda) {
             $izqX = $coords[$nodo->izquierda->valor]['x'];
             $izqY = $coords[$nodo->izquierda->valor]['y'];
-            $lineas .= "<line x1='{$x}' y1='{$y}' x2='{$izqX}' y2='{$izqY}' stroke='#FF4655' stroke-width='2.5'/>";
+            $lineas .= "<line x1='{$x}' y1='{$y}' x2='{$izqX}' y2='{$izqY}' stroke='#000000' stroke-width='2.5'/>";
             $this->generarElementosSVG($nodo->izquierda, $coords, $lineas, $nodos);
         }
 
         if ($nodo->derecha) {
             $derX = $coords[$nodo->derecha->valor]['x'];
             $derY = $coords[$nodo->derecha->valor]['y'];
-            $lineas .= "<line x1='{$x}' y1='{$y}' x2='{$derX}' y2='{$derY}' stroke='#FF4655' stroke-width='2.5'/>";
+            $lineas .= "<line x1='{$x}' y1='{$y}' x2='{$derX}' y2='{$derY}' stroke='#000000' stroke-width='2.5'/>";
             $this->generarElementosSVG($nodo->derecha, $coords, $lineas, $nodos);
         }
 
         $val = htmlspecialchars($nodo->valor);
         $nodos .= "
-            <circle cx='{$x}' cy='{$y}' r='21' fill='#0F1923' stroke='#FF4655' stroke-width='2.5'/>
-            <text x='{$x}' y='" . ($y + 5) . "' fill='#FFFFFF' font-family='Rajdhani, sans-serif' font-weight='bold' font-size='16' text-anchor='middle'>{$val}</text>
+            <rect x='" . ($x - 19) . "' y='" . ($y - 19) . "' width='38' height='38' fill='#FFFFFF' stroke='#000000' stroke-width='2.5'/>
+            <text x='{$x}' y='" . ($y + 6) . "' fill='#000000' font-family='Silkscreen, monospace' font-weight='bold' font-size='15' text-anchor='middle'>{$val}</text>
         ";
     }
 }
@@ -283,64 +273,146 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-renderHeader('06. ÁRBOL BINARIO', 'MÓDULO 06 // ESTRUCTURAS DE DATOS NO LINEALES', 'ejercicio6', '../');
+renderHeader('06. Árbol Binario', 'ejercicio6', '../');
 ?>
 
-<section class="work-panel">
-    <h2 class="section-label">Ingresar Recorridos (Mínimo 2)</h2>
-    <form method="POST">
-        <div class="form-grid">
-            <div class="form-group">
-                <label for="preorden">Recorrido Preorden:</label>
-                <input type="text" id="preorden" name="preorden" class="form-control" 
-                       value="<?= htmlspecialchars($preorden) ?>" placeholder="Ej: M, K, X, Z, P">
-            </div>
-            <div class="form-group">
-                <label for="inorden">Recorrido Inorden:</label>
-                <input type="text" id="inorden" name="inorden" class="form-control" 
-                       value="<?= htmlspecialchars($inorden) ?>" placeholder="Ej: X, K, Z, M, P">
-            </div>
-            <div class="form-group">
-                <label for="postorden">Recorrido Postorden:</label>
-                <input type="text" id="postorden" name="postorden" class="form-control" 
-                       value="<?= htmlspecialchars($postorden) ?>" placeholder="Ej: X, Z, K, P, M">
-            </div>
+<div class="mac-workspace-grid">
+    <!-- Ventana Izquierda: Formulario de Recorridos -->
+    <section class="mac-window">
+        <div class="mac-titlebar">
+            <a href="../index.php" class="mac-close-btn"></a>
+            <span class="mac-title-pill">Ejercicio 06 — Árbol Binario</span>
         </div>
-        <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <button type="submit" class="btn-recruit">CONSTRUIR ÁRBOL</button>
-            <button type="button" class="btn-outline" onclick="cargarEjemploPersonalizado()">EJEMPLO CON OTRAS LETRAS</button>
-            <button type="button" class="btn-outline" onclick="cargarEjemploTaller()">EJEMPLO DEL TALLER (A-E)</button>
-        </div>
-    </form>
 
-    <?php if ($error): ?>
-        <div class="alert-error"><?= htmlspecialchars($error) ?></div>
-    <?php elseif ($svgArbol): ?>
-        <div class="result-box">
-            <h3>Árbol Binario Generado</h3>
-            <p style="margin-bottom:8px;"><strong>Método aplicado:</strong> <?= htmlspecialchars($metodo) ?></p>
-            <p style="margin-bottom:14px; font-size:0.9rem; color:#D5D4D0;">
-                <strong>Preorden:</strong> <?= htmlspecialchars($recorridos['preorden']) ?> &nbsp;|&nbsp;
-                <strong>Inorden:</strong> <?= htmlspecialchars($recorridos['inorden']) ?> &nbsp;|&nbsp;
-                <strong>Postorden:</strong> <?= htmlspecialchars($recorridos['postorden']) ?>
-            </p>
-            <?= $svgArbol ?>
+        <div class="mac-window-body">
+            <form method="POST">
+                <div class="mac-form-group">
+                    <label for="preorden">Recorrido Preorden:</label>
+                    <input type="text" id="preorden" name="preorden" class="mac-input"
+                           value="<?= htmlspecialchars($preorden) ?>" placeholder="Ej: M, K, X, Z, P">
+                </div>
+
+                <div class="mac-form-group">
+                    <label for="inorden">Recorrido Inorden:</label>
+                    <input type="text" id="inorden" name="inorden" class="mac-input"
+                           value="<?= htmlspecialchars($inorden) ?>" placeholder="Ej: X, K, Z, M, P">
+                </div>
+
+                <div class="mac-form-group">
+                    <label for="postorden">Recorrido Postorden:</label>
+                    <input type="text" id="postorden" name="postorden" class="mac-input"
+                           value="<?= htmlspecialchars($postorden) ?>" placeholder="Ej: X, Z, K, P, M">
+                </div>
+
+                <div class="mac-btn-group">
+                    <button type="submit" class="mac-btn-primary">OK</button>
+                    <button type="button" id="btn-otro-ejemplo" class="mac-btn-secondary" onclick="cargarEjemploPersonalizado()">Ejemplo otras letras</button>
+                    <button type="button" class="mac-btn-secondary" onclick="cargarEjemploTaller()">Ejemplo (A-E)</button>
+                </div>
+            </form>
+
+            <?php if ($error): ?>
+                <div class="mac-alert-error"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
-</section>
+
+        <div class="mac-scrollbar">
+            <div class="mac-scroll-arrow">◀</div>
+            <div class="mac-scroll-thumb"></div>
+            <div class="mac-scroll-arrow">▶</div>
+        </div>
+        <div class="mac-statusbar">
+            <span class="mac-status-counter">6 of 7</span>
+            <span>MÍNIMO 2 RECORRIDOS</span>
+            <span>TREE</span>
+        </div>
+    </section>
+
+    <!-- Ventana Derecha: Scrapbook con el Árbol Generado -->
+    <section class="mac-window">
+        <div class="mac-titlebar">
+            <a href="../index.php" class="mac-close-btn"></a>
+            <span class="mac-title-pill">Scrapbook — Árbol PICT</span>
+        </div>
+
+        <div class="mac-window-body">
+            <?php if ($svgArbol): ?>
+                <p style="margin-bottom:6px;"><strong>Método:</strong> <?= htmlspecialchars($metodo) ?></p>
+                <p style="margin-bottom:10px; font-size:1.05rem;">
+                    <strong>Pre:</strong> <?= htmlspecialchars($recorridos['preorden']) ?> |
+                    <strong>In:</strong> <?= htmlspecialchars($recorridos['inorden']) ?> |
+                    <strong>Post:</strong> <?= htmlspecialchars($recorridos['postorden']) ?>
+                </p>
+                <?= $svgArbol ?>
+            <?php else: ?>
+                <?= Layout::svgIlustracionScrapbook('Árbol Binario') ?>
+            <?php endif; ?>
+        </div>
+
+        <div class="mac-scrollbar">
+            <div class="mac-scroll-arrow">◀</div>
+            <div class="mac-scroll-thumb"></div>
+            <div class="mac-scroll-arrow">▶</div>
+        </div>
+        <div class="mac-statusbar">
+            <span class="mac-status-counter">OUT</span>
+            <span>ÁRBOL BINARIO</span>
+            <span>PICT</span>
+        </div>
+    </section>
+</div>
 
 <script>
+const ejemplosPersonalizados = [
+    {
+        pre:  'M, K, X, Z, P',
+        ino:  'X, K, Z, M, P',
+        post: 'X, Z, K, P, M'
+    },
+    {
+        pre:  'R, G, T, W, L, Q',
+        ino:  'T, G, W, R, Q, L',
+        post: 'T, W, G, Q, L, R'
+    },
+    {
+        pre:  'H, F, N, S, Y, J, V',
+        ino:  'N, F, S, H, J, Y, V',
+        post: 'N, S, F, J, V, Y, H'
+    },
+    {
+        pre:  'Z, P, D, U, K, M',
+        ino:  'P, U, D, Z, K, M',
+        post: 'U, D, P, M, K, Z'
+    }
+];
+
+let indiceEjemplo = 0;
+
 function cargarEjemploPersonalizado() {
-    document.getElementById('preorden').value  = 'M, K, X, Z, P';
-    document.getElementById('inorden').value   = 'X, K, Z, M, P';
-    document.getElementById('postorden').value = '';
+    const actualPre = document.getElementById('preorden').value.trim().toUpperCase();
+    const idxActual = ejemplosPersonalizados.findIndex(e => e.pre.toUpperCase() === actualPre);
+
+    if (idxActual !== -1) {
+        indiceEjemplo = (idxActual + 1) % ejemplosPersonalizados.length;
+    }
+
+    const ejemplo = ejemplosPersonalizados[indiceEjemplo];
+    document.getElementById('preorden').value  = ejemplo.pre;
+    document.getElementById('inorden').value   = ejemplo.ino;
+    document.getElementById('postorden').value = ejemplo.post;
+
+    const btn = document.getElementById('btn-otro-ejemplo');
+    btn.textContent = `Ejemplo otras letras (${indiceEjemplo + 1}/${ejemplosPersonalizados.length})`;
+
+    indiceEjemplo = (indiceEjemplo + 1) % ejemplosPersonalizados.length;
 }
 
 function cargarEjemploTaller() {
     document.getElementById('preorden').value  = 'A -> B -> D -> E -> C';
     document.getElementById('inorden').value   = 'D -> B -> E -> A -> C';
     document.getElementById('postorden').value = 'D -> E -> B -> C -> A';
+    document.getElementById('btn-otro-ejemplo').textContent = 'Ejemplo otras letras';
 }
 </script>
 
-<?php renderFooter('../'); ?>
+<?php renderFooter('ejercicio6', '../'); ?>

@@ -1,353 +1,774 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap');
 
 :root {
-    --bg-base: #ECE8E1;
-    --bg-panel: #F7F5F0;
-    --bg-dark: #0F1923;
-    --bg-dark-soft: #1B2733;
-    --accent-red: #FF4655;
-    --accent-red-dark: #D93240;
-    --text-main: #0F1923;
-    --text-muted: #68706C;
-    --border-subtle: rgba(15, 25, 35, 0.16);
+    --mac-white: #FFFFFF;
+    --mac-black: #000000;
+    --mac-gray-light: #DFDFDF;
+    --mac-gray-mid: #A8A8A8;
+    --mac-gray-dark: #555555;
+    --font-pixel-title: 'Silkscreen', monospace;
+    --font-pixel-body: 'VT323', monospace;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    image-rendering: pixelated;
 }
 
+/* Fondo tramado clásico de Macintosh 1-bit */
 body {
-    background-color: var(--bg-base);
-    color: var(--text-main);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-    position: relative;
-}
-
-/* Líneas arquitectónicas diagonales en el fondo */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
+    background-color: #B8B8B8;
     background-image: 
-        linear-gradient(115deg, transparent 48%, rgba(15, 25, 35, 0.04) 48.2%, rgba(15, 25, 35, 0.04) 48.5%, transparent 48.7%),
-        linear-gradient(25deg, transparent 72%, rgba(255, 70, 85, 0.05) 72.2%, transparent 72.5%);
-    pointer-events: none;
-    z-index: 0;
-}
-
-.watermark-bg {
-    position: fixed;
-    top: 8%;
-    right: -2%;
-    font-family: 'Anton', sans-serif;
-    font-size: 16rem;
-    color: rgba(15, 25, 35, 0.035);
-    letter-spacing: 8px;
-    pointer-events: none;
-    user-select: none;
-    z-index: 0;
-    line-height: 0.9;
-}
-
-/* Contenedor principal */
-.app-shell {
-    display: flex;
+        linear-gradient(45deg, #8C8C8C 25%, transparent 25%), 
+        linear-gradient(-45deg, #8C8C8C 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #8C8C8C 75%), 
+        linear-gradient(-45deg, transparent 75%, #8C8C8C 75%);
+    background-size: 4px 4px;
+    background-position: 0 0, 0 2px, 2px -2px, -2px 0;
+    color: var(--mac-black);
+    font-family: var(--font-pixel-body);
+    font-size: 1.25rem;
     min-height: 100vh;
-    position: relative;
-    z-index: 1;
-}
-
-/* Barra lateral izquierda (Menú vertical) */
-.sidebar {
-    width: 270px;
-    padding: 32px 24px;
     display: flex;
     flex-direction: column;
+}
+
+/* =========================================================
+   BARRA DE MENÚ SUPERIOR ESTILO CLASSIC MAC OS (IMAGEN 1)
+   ========================================================= */
+.mac-menubar {
+    background: var(--mac-white);
+    border-bottom: 2px solid var(--mac-black);
+    padding: 4px 16px;
+    display: flex;
     justify-content: space-between;
-    border-right: 1px solid var(--border-subtle);
-    background: rgba(236, 232, 225, 0.88);
-    backdrop-filter: blur(6px);
+    align-items: center;
     position: sticky;
     top: 0;
-    height: 100vh;
+    z-index: 100;
+    font-family: var(--font-pixel-title);
+    font-size: 0.78rem;
 }
 
-.brand-header {
+.mac-menubar-left {
     display: flex;
     align-items: center;
-    gap: 14px;
-}
-
-.brand-emblem {
-    width: 44px;
-    height: 44px;
-    border: 1.5px solid var(--border-subtle);
-    display: grid;
-    place-items: center;
-    background: var(--bg-panel);
-    position: relative;
-}
-
-.brand-emblem::after {
-    content: "V";
-    font-family: 'Anton', sans-serif;
-    font-size: 1.4rem;
-    color: var(--text-main);
-}
-
-.brand-bars span {
-    display: block;
-    height: 4px;
-    background: var(--text-muted);
-    opacity: 0.45;
-    margin-bottom: 5px;
-}
-
-.brand-bars span:first-child { width: 42px; }
-.brand-bars span:last-child { width: 26px; margin-bottom: 0; }
-
-/* Enlaces del menú vertical izquierdo */
-.tactical-nav {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    margin: auto 0;
-}
-
-.tactical-nav a {
-    text-decoration: none;
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 0.98rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.2s ease;
-    position: relative;
-    padding: 4px 0;
-}
-
-.tactical-nav a .nav-dash {
-    width: 0;
-    height: 2px;
-    background-color: var(--accent-red);
-    transition: width 0.25s ease;
-}
-
-.tactical-nav a:hover {
-    color: var(--text-main);
-    transform: translateX(4px);
-}
-
-.tactical-nav a.active {
-    color: var(--accent-red);
-}
-
-.tactical-nav a.active .nav-dash {
-    width: 22px;
-}
-
-.sidebar-footer {
-    border: 1px solid var(--border-subtle);
-    padding: 10px 14px;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--bg-panel);
-}
-
-.status-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--accent-red);
-    display: inline-block;
-}
-
-/* Contenido principal */
-.main-content {
-    flex: 1;
-    padding: 36px 48px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-/* Cabecera superior */
-.hero-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 32px;
-    border-bottom: 1px solid var(--border-subtle);
-    padding-bottom: 24px;
-}
-
-.hero-kicker {
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 0.95rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.hero-kicker::before {
-    content: "";
-    width: 18px;
-    height: 2px;
-    background: var(--text-main);
-}
-
-.hero-title {
-    font-family: 'Anton', sans-serif;
-    font-size: clamp(2.8rem, 5vw, 4.4rem);
-    color: var(--accent-red);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    line-height: 0.95;
-    transform: skewX(-6deg);
-    margin: 8px 0 14px;
-    text-shadow: 3px 3px 0px rgba(15, 25, 35, 0.08);
-}
-
-/* Cajas tipo teclas [00] [01] ... [07] */
-.keybind-strip {
-    display: flex;
-    gap: 8px;
+    gap: 18px;
     flex-wrap: wrap;
 }
 
-.key-box {
-    width: 38px;
-    height: 36px;
-    border: 1px solid var(--border-subtle);
-    background: rgba(255, 255, 255, 0.55);
-    display: grid;
-    place-items: center;
-    font-family: 'Rajdhani', sans-serif;
+.mac-apple-logo {
+    font-size: 1rem;
     font-weight: 700;
-    font-size: 0.95rem;
-    color: var(--text-muted);
     text-decoration: none;
-    transition: all 0.2s ease;
+    color: var(--mac-black);
+    padding: 2px 6px;
 }
 
-.key-box:hover,
-.key-box.active {
-    background: var(--bg-dark);
-    color: #FFFFFF;
-    border-color: var(--bg-dark);
-    box-shadow: inset 0 -3px 0 var(--accent-red);
+.mac-menu-item {
+    position: relative;
+    cursor: pointer;
+    padding: 3px 8px;
+    text-decoration: none;
+    color: var(--mac-black);
+    user-select: none;
 }
 
-/* Insignias superiores derechas */
-.roster-badges {
+.mac-menu-item:hover,
+.mac-menu-item.active {
+    background: var(--mac-black);
+    color: var(--mac-white);
+}
+
+/* Menú desplegable clásico al pasar el mouse por "Ejercicios" */
+.mac-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 240px;
+    background: var(--mac-white);
+    border: 2px solid var(--mac-black);
+    box-shadow: 3px 3px 0 var(--mac-black);
+    z-index: 200;
+    flex-direction: column;
+}
+
+.mac-menu-item:hover .mac-dropdown {
+    display: flex;
+}
+
+.mac-dropdown a {
+    text-decoration: none;
+    color: var(--mac-black);
+    padding: 7px 12px;
+    border-bottom: 1px dotted var(--mac-gray-mid);
+    font-family: var(--font-pixel-body);
+    font-size: 1.15rem;
+    display: block;
+}
+
+.mac-dropdown a:hover,
+.mac-dropdown a.current {
+    background: var(--mac-black);
+    color: var(--mac-white);
+}
+
+.mac-menubar-right {
+    font-family: var(--font-pixel-body);
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* =========================================================
+   CONTENEDOR DE ESCRITORIO + ÍCONOS DERECHOS (IMAGEN 1)
+   ========================================================= */
+.mac-desktop {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 22px 24px;
+    gap: 24px;
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.desktop-stage {
+    flex: 1;
+    min-width: 0;
+}
+
+.desktop-icons-col {
+    width: 105px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.desktop-icon-link {
+    text-decoration: none;
+    color: var(--mac-black);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4px;
+    width: 96px;
+}
+
+.desktop-icon-link span {
+    background: var(--mac-white);
+    border: 1px solid var(--mac-black);
+    padding: 1px 5px;
+    font-family: var(--font-pixel-body);
+    font-size: 1.05rem;
+    line-height: 1.1;
+}
+
+.desktop-icon-link:hover span,
+.desktop-icon-link.active span {
+    background: var(--mac-black);
+    color: var(--mac-white);
+}
+
+/* =========================================================
+   MENÚ PRINCIPAL ESTILO KALEIDOSCOPE (IMAGEN 2)
+   ========================================================= */
+.kaleido-header-banner {
+    background: var(--mac-white);
+    border: 2px solid var(--mac-black);
+    box-shadow: 4px 4px 0 var(--mac-black);
+    padding: 12px 18px;
+    margin-bottom: 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.kaleido-header-banner h1 {
+    font-family: var(--font-pixel-title);
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+}
+
+.kaleido-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 34px 28px;
+    padding-bottom: 24px;
+}
+
+/* Ventana principal de cada tarjeta temática */
+.kaleido-card {
+    position: relative;
+    border: 2px solid var(--mac-black);
+    box-shadow: 4px 4px 0 var(--mac-black);
+    background: var(--card-bg, #E6E6E6);
+    color: var(--card-text, #000000);
+    padding-bottom: 26px;
+    transition: transform 0.15s ease;
+}
+
+.kaleido-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--mac-black);
+}
+
+.kaleido-titlebar {
+    background: var(--title-bg, #CCCCCC);
+    color: var(--title-text, #000000);
+    border-bottom: 2px solid var(--mac-black);
+    padding: 4px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-pixel-title);
+    font-size: 0.75rem;
+}
+
+.kaleido-titlebar-boxes {
+    display: flex;
+    gap: 4px;
+}
+
+.kaleido-titlebar-boxes span {
+    width: 11px;
+    height: 11px;
+    border: 1.5px solid currentColor;
+    background: var(--card-bg, #FFF);
+    display: inline-block;
+}
+
+.kaleido-body {
+    padding: 12px 14px 36px;
+}
+
+.kaleido-subtitle {
+    font-family: var(--font-pixel-title);
+    font-size: 0.82rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Fila con la fotico de carpeta/archivo a la izquierda y la descripción al lado */
+.kaleido-content-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 12px;
+}
+
+.kaleido-folder-box {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.kaleido-desc {
+    font-family: var(--font-pixel-body);
+    font-size: 1.15rem;
+    line-height: 1.25;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px dashed var(--mac-black);
+    padding: 6px 9px;
+    color: #000000;
+}
+
+/* Controles pixelados decorativos (radio y checkbox como en la imagen 2) */
+.kaleido-widgets-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.pixel-radio, .pixel-check {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--mac-black);
+    background: #FFFFFF;
+    display: inline-grid;
+    place-items: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #000;
+}
+
+.pixel-radio { border-radius: 50%; }
+.pixel-radio.on::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: var(--accent-color, #000);
+    border-radius: 50%;
+}
+
+/* Barra inferior con flechas estilo ventana clásica */
+.kaleido-bottom-scroll {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 18px;
+    border-top: 2px solid var(--mac-black);
+    background: var(--title-bg, #D4D4D4);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px;
+    font-size: 0.7rem;
+}
+
+/* Subventana superpuesta "On / Off" + Botón OK (idéntica a la imagen 2) */
+.kaleido-subwin {
+    position: absolute;
+    right: 10px;
+    bottom: 12px;
+    width: 175px;
+    background: var(--sub-bg, #E8E8E8);
+    border: 2px solid var(--mac-black);
+    box-shadow: 3px 3px 0 var(--mac-black);
+    z-index: 5;
+}
+
+.kaleido-subwin-bar {
+    height: 12px;
+    background: var(--title-bg, #CCCCCC);
+    border-bottom: 1.5px solid var(--mac-black);
+}
+
+.kaleido-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1.5px solid var(--mac-black);
+    font-family: var(--font-pixel-title);
+    font-size: 0.65rem;
+    text-align: center;
+}
+
+.kaleido-tabs span:first-child {
+    background: var(--accent-color, #4A90E2);
+    color: var(--accent-text, #FFFFFF);
+    padding: 2px 0;
+    border-right: 1.5px solid var(--mac-black);
+}
+
+.kaleido-tabs span:last-child {
+    background: rgba(255,255,255,0.6);
+    color: #000;
+    padding: 2px 0;
+}
+
+.kaleido-slider-box {
+    padding: 8px 8px 6px;
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.roster-item {
-    width: 40px;
-    height: 40px;
-    background: var(--bg-dark);
-    border: 1px solid var(--accent-red);
-    color: #FFFFFF;
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    display: grid;
-    place-items: center;
-    font-size: 0.85rem;
-}
-
-/* Tarjetas de selección de módulos en el Inicio */
-.cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-    gap: 22px;
-    margin: 20px 0 36px;
-}
-
-.agent-card {
-    background: var(--bg-panel);
-    border: 1.5px solid var(--border-subtle);
-    padding: 22px;
+.kaleido-slider-track {
+    height: 10px;
+    border: 1.5px solid var(--mac-black);
+    background: #FFFFFF;
     position: relative;
-    transition: all 0.25s ease;
+}
+
+.kaleido-slider-fill {
+    width: 65%;
+    height: 100%;
+    background: var(--accent-color, #4A90E2);
+}
+
+.btn-kaleido-ok {
+    align-self: flex-end;
+    background: var(--btn-bg, #FFFFFF);
+    color: var(--btn-text, #000000);
+    border: 2px solid var(--mac-black);
+    box-shadow: inset -2px -2px 0 rgba(0,0,0,0.25), inset 2px 2px 0 rgba(255,255,255,0.7);
+    font-family: var(--font-pixel-title);
+    font-size: 0.72rem;
+    padding: 4px 14px;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.btn-kaleido-ok:hover {
+    background: var(--mac-black);
+    color: var(--mac-white);
+}
+
+/* Temas de color exactos de la segunda imagen */
+.theme-scherzo {
+    --card-bg: #F6D56E;
+    --title-bg: #8D6CAB;
+    --title-text: #FFFFFF;
+    --sub-bg: #A8D5BA;
+    --accent-color: #A63A79;
+    --accent-text: #FFFFFF;
+    --btn-bg: #8F99D6;
+    --btn-text: #FFFFFF;
+}
+
+.theme-antique {
+    --card-bg: #7A3B32;
+    --card-text: #F7E8D0;
+    --title-bg: #4A1F19;
+    --title-text: #F7E8D0;
+    --sub-bg: #632D25;
+    --accent-color: #2B110E;
+    --accent-text: #F7E8D0;
+    --btn-bg: #4A1F19;
+    --btn-text: #F7E8D0;
+}
+
+.theme-ice {
+    --card-bg: #E1E8F0;
+    --title-bg: #B8C9DC;
+    --title-text: #000000;
+    --sub-bg: #D5E0EC;
+    --accent-color: #6B9AC4;
+    --accent-text: #FFFFFF;
+    --btn-bg: #C5D6E8;
+    --btn-text: #000000;
+}
+
+.theme-onyx {
+    --card-bg: #1E1E1E;
+    --card-text: #F5D742;
+    --title-bg: repeating-linear-gradient(
+        -45deg,
+        #111111,
+        #111111 8px,
+        #E6C229 8px,
+        #E6C229 16px
+    );
+    --title-text: #FFFFFF;
+    --sub-bg: #2A2A2A;
+    --accent-color: #E6C229;
+    --accent-text: #000000;
+    --btn-bg: #1A1A1A;
+    --btn-text: #F5D742;
+}
+
+.theme-onyx .kaleido-titlebar span:first-child {
+    background: #000000;
+    padding: 1px 6px;
+}
+
+.theme-bebox {
+    --card-bg: #DCDCDC;
+    --title-bg: #F5C724;
+    --title-text: #000000;
+    --sub-bg: #E6E6E6;
+    --accent-color: #2E77D0;
+    --accent-text: #FFFFFF;
+    --btn-bg: #DCDCDC;
+    --btn-text: #000000;
+}
+
+.theme-system7 {
+    --card-bg: #EFEFEF;
+    --title-bg: #CCCCFF;
+    --title-text: #000000;
+    --sub-bg: #FFFFFF;
+    --accent-color: #000000;
+    --accent-text: #FFFFFF;
+    --btn-bg: #FFFFFF;
+    --btn-text: #000000;
+}
+
+.theme-scrapbook {
+    --card-bg: #FFFFFF;
+    --title-bg: #D8D8D8;
+    --title-text: #000000;
+    --sub-bg: #F2F2F2;
+    --accent-color: #000000;
+    --accent-text: #FFFFFF;
+    --btn-bg: #FFFFFF;
+    --btn-text: #000000;
+}
+
+/* =========================================================
+   VENTANAS 1-BIT CLASSIC MAC PARA EJERCICIOS (IMAGEN 1)
+   ========================================================= */
+.mac-workspace-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 22px;
+    align-items: start;
+}
+
+.mac-window {
+    background: var(--mac-white);
+    border: 2px solid var(--mac-black);
+    box-shadow: 4px 4px 0 var(--mac-black);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
 }
 
-.agent-card::before {
-    content: "";
+/* Barra de título con rayas horizontales clásicas de Macintosh */
+.mac-titlebar {
+    height: 28px;
+    border-bottom: 2px solid var(--mac-black);
+    background-color: var(--mac-white);
+    background-image: repeating-linear-gradient(
+        to bottom,
+        var(--mac-black) 0px,
+        var(--mac-black) 1px,
+        var(--mac-white) 1px,
+        var(--mac-white) 3px
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 10px;
+}
+
+.mac-close-btn {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: var(--bg-dark);
-    transition: background 0.25s ease;
-}
-
-.agent-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent-red);
-    box-shadow: 0 12px 24px rgba(15, 25, 35, 0.1);
-}
-
-.agent-card:hover::before {
-    background: var(--accent-red);
-}
-
-.card-index {
-    font-family: 'Anton', sans-serif;
-    font-size: 2rem;
-    color: var(--accent-red);
-    line-height: 1;
-    margin-bottom: 8px;
-}
-
-.card-title {
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 1.25rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-    color: var(--text-main);
-}
-
-.card-desc {
-    font-size: 0.88rem;
-    color: var(--text-muted);
-    line-height: 1.5;
-    margin-bottom: 20px;
-}
-
-/* Botones tácticos */
-.btn-recruit {
+    left: 8px;
+    width: 14px;
+    height: 14px;
+    background: var(--mac-white);
+    border: 1.5px solid var(--mac-black);
+    text-decoration: none;
     display: inline-block;
-    background: var(--bg-dark);
-    color: #FFFFFF;
-    font-family: 'Rajdhani', sans-serif;
+}
+
+.mac-close-btn:hover {
+    background: var(--mac-black);
+}
+
+.mac-title-pill {
+    background: var(--mac-white);
+    padding: 0 12px;
+    font-family: var(--font-pixel-title);
+    font-size: 0.78rem;
     font-weight: 700;
+    color: var(--mac-black);
+}
+
+.mac-window-body {
+    padding: 18px 20px;
+}
+
+/* Barra de desplazamiento pixelada como en la ventana Scrapbook de la imagen 1 */
+.mac-scrollbar {
+    height: 18px;
+    border-top: 2px solid var(--mac-black);
+    display: flex;
+    align-items: stretch;
+    background-image: 
+        linear-gradient(45deg, #000 25%, transparent 25%), 
+        linear-gradient(-45deg, #000 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #000 75%), 
+        linear-gradient(-45deg, transparent 75%, #000 75%);
+    background-size: 4px 4px;
+    background-position: 0 0, 0 2px, 2px -2px, -2px 0;
+}
+
+.mac-scroll-arrow {
+    width: 18px;
+    background: var(--mac-white);
+    border-right: 1.5px solid var(--mac-black);
+    display: grid;
+    place-items: center;
+    font-size: 0.65rem;
+    font-family: var(--font-pixel-title);
+}
+
+.mac-scroll-arrow:last-child {
+    border-right: none;
+    border-left: 1.5px solid var(--mac-black);
+    margin-left: auto;
+}
+
+.mac-scroll-thumb {
+    width: 24px;
+    background: var(--mac-white);
+    border-left: 1.5px solid var(--mac-black);
+    border-right: 1.5px solid var(--mac-black);
+    margin-left: 35%;
+}
+
+/* Barra de estado inferior ("21 of 31 | DAY 21 | PICT") */
+.mac-statusbar {
+    border-top: 2px solid var(--mac-black);
+    padding: 5px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-pixel-title);
+    font-size: 0.68rem;
+    background: var(--mac-white);
+}
+
+.mac-status-counter {
+    border: 1.5px solid var(--mac-black);
+    padding: 1px 8px;
+}
+
+/* Formularios y botones retro */
+.mac-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.mac-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 14px;
+}
+
+.mac-form-group label {
+    font-family: var(--font-pixel-title);
+    font-size: 0.72rem;
+    color: var(--mac-black);
+}
+
+.mac-input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 2px solid var(--mac-black);
+    background: var(--mac-white);
+    font-family: var(--font-pixel-body);
+    font-size: 1.25rem;
+    color: var(--mac-black);
+    outline: none;
+}
+
+.mac-input:focus {
+    background: #F4F4F4;
+    box-shadow: inset 2px 2px 0 var(--mac-black);
+}
+
+.mac-btn-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+/* Botón primario con doble borde redondeado estilo System 7 */
+.mac-btn-primary {
+    background: var(--mac-white);
+    color: var(--mac-black);
+    border: 2px solid var(--mac-black);
+    outline: 2px solid var(--mac-black);
+    outline-offset: 2px;
+    border-radius: 6px;
+    padding: 6px 18px;
+    font-family: var(--font-pixel-title);
+    font-size: 0.75rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.mac-btn-primary:hover {
+    background: var(--mac-black);
+    color: var(--mac-white);
+}
+
+.mac-btn-secondary {
+    background: var(--mac-white);
+    color: var(--mac-black);
+    border: 2px solid var(--mac-black);
+    border-radius: 5px;
+    padding: 6px 14px;
+    font-family: var(--font-pixel-title);
+    font-size: 0.72rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.mac-btn-secondary:hover {
+    background: var(--mac-black);
+    color: var(--mac-white);
+}
+
+/* Caja de resultado 1-bit dentro de la ventana derecha */
+.mac-output-frame {
+    border: 2px solid var(--mac-black);
+    padding: 16px;
+    background: var(--mac-white);
+}
+
+.mac-output-big {
+    font-family: var(--font-pixel-title);
+    font-size: 1.5rem;
+    padding: 12px;
+    border: 2px dashed var(--mac-black);
+    margin: 10px 0;
+    word-break: break-word;
+    background: #F9F9F9;
+}
+
+.mac-alert-error {
+    border: 2px solid var(--mac-black);
+    background: var(--mac-black);
+    color: var(--mac-white);
+    padding: 10px 14px;
+    font-family: var(--font-pixel-title);
+    font-size: 0.75rem;
+    margin-top: 12px;
+}
+
+.mac-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.mac-table th {
+    background: var(--mac-black);
+    color: var(--mac-white);
+    font-family: var(--font-pixel-title);
+    font-size: 0.72rem;
+    padding: 7px 10px;
+    text-align: left;
+}
+
+.mac-table td {
+    border-bottom: 1.5px solid var(--mac-black);
+    padding: 7px 10px;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 980px) {
+    .mac-workspace-grid {
+        grid-template-columns: 1fr;
+    }
+    .mac-desktop {
+        flex-direction: column;
+    }
+    .desktop-icons-col {
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .kaleido-grid {
+        grid-template-columns: 1fr;
+    }
 }

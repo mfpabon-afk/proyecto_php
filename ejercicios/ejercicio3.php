@@ -2,7 +2,6 @@
 require_once __DIR__ . '/../includes/layout.php';
 
 class Estadistica {
-    /** @var float[] */
     private array $numeros;
 
     public function __construct(array $numeros) {
@@ -36,7 +35,7 @@ class Estadistica {
 
         $maxFrecuencia = max($frecuencias);
         if ($maxFrecuencia === 1 && count($this->numeros) > 1) {
-            return "Sin moda (todos los valores aparecen una sola vez)";
+            return "Sin moda";
         }
 
         $modas = [];
@@ -45,11 +44,11 @@ class Estadistica {
                 $modas[] = $valor;
             }
         }
-        return implode(', ', $modas) . " (frecuencia: {$maxFrecuencia})";
+        return implode(', ', $modas) . " (rep: {$maxFrecuencia})";
     }
 }
 
-$cantidad = isset($_POST['cantidad']) ? max(1, min(50, intval($_POST['cantidad']))) : 5;
+$cantidad = isset($_POST['cantidad']) ? max(1, min(50, intval($_POST['cantidad']))) : 4;
 $valoresIngresados = $_POST['numeros'] ?? [];
 $resultados = null;
 $error = null;
@@ -67,44 +66,96 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['calcular'])) {
     }
 }
 
-renderHeader('03. ESTADÍSTICA', 'MÓDULO 03 // PROMEDIO, MEDIANA Y MODA', 'ejercicio3', '../');
+renderHeader('03. Estadística', 'ejercicio3', '../');
 ?>
 
-<section class="work-panel">
-    <h2 class="section-label">1. Definir Cantidad de Números Reales</h2>
-    <form method="POST" style="display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap; margin-bottom:24px;">
-        <div class="form-group" style="margin-bottom:0; width:240px;">
-            <label for="cantidad">Cantidad de números (N):</label>
-            <input type="number" id="cantidad" name="cantidad" min="1" max="50" class="form-control" value="<?= $cantidad ?>" required>
+<div class="mac-workspace-grid">
+    <!-- Ventana Izquierda -->
+    <section class="mac-window">
+        <div class="mac-titlebar">
+            <a href="../index.php" class="mac-close-btn"></a>
+            <span class="mac-title-pill">Ejercicio 03 — Estadística</span>
         </div>
-        <button type="submit" name="generar_campos" class="btn-outline">GENERAR CAMPOS</button>
-    </form>
 
-    <h2 class="section-label">2. Ingresar Serie de Números Reales</h2>
-    <form method="POST">
-        <input type="hidden" name="cantidad" value="<?= $cantidad ?>">
-        <div class="form-grid">
-            <?php for ($i = 0; $i < $cantidad; $i++): ?>
-                <div class="form-group">
-                    <label>Número #<?= $i + 1 ?>:</label>
-                    <input type="number" step="any" name="numeros[]" class="form-control" 
-                           value="<?= htmlspecialchars($valoresIngresados[$i] ?? '') ?>" required>
+        <div class="mac-window-body">
+            <form method="POST" style="display:flex; gap:10px; align-items:flex-end; margin-bottom:16px; border-bottom:2px dashed #000; padding-bottom:14px;">
+                <div class="mac-form-group" style="margin-bottom:0; flex:1;">
+                    <label for="cantidad">Cantidad de números (N):</label>
+                    <input type="number" id="cantidad" name="cantidad" min="1" max="50" class="mac-input" value="<?= $cantidad ?>" required>
                 </div>
-            <?php endfor; ?>
-        </div>
-        <button type="submit" name="calcular" class="btn-recruit">CALCULAR ESTADÍSTICAS</button>
-    </form>
+                <button type="submit" name="generar_campos" class="mac-btn-secondary">Actualizar</button>
+            </form>
 
-    <?php if ($error): ?>
-        <div class="alert-error"><?= htmlspecialchars($error) ?></div>
-    <?php elseif ($resultados): ?>
-        <div class="result-box">
-            <h3>Resultados Estadísticos</h3>
-            <p><strong>Promedio (Media Aritmética):</strong> <?= round($resultados['promedio'], 4) ?></p>
-            <p><strong>Mediana (Valor Central):</strong> <?= round($resultados['mediana'], 4) ?></p>
-            <p><strong>Moda:</strong> <?= htmlspecialchars($resultados['moda']) ?></p>
-        </div>
-    <?php endif; ?>
-</section>
+            <form method="POST">
+                <input type="hidden" name="cantidad" value="<?= $cantidad ?>">
+                <div class="mac-form-grid">
+                    <?php for ($i = 0; $i < $cantidad; $i++): ?>
+                        <div class="mac-form-group" style="margin-bottom:6px;">
+                            <label>Valor #<?= $i + 1 ?>:</label>
+                            <input type="number" step="any" name="numeros[]" class="mac-input"
+                                   value="<?= htmlspecialchars($valoresIngresados[$i] ?? '') ?>" required>
+                        </div>
+                    <?php endfor; ?>
+                </div>
 
-<?php renderFooter('../'); ?>
+                <div class="mac-btn-group">
+                    <button type="submit" name="calcular" class="mac-btn-primary">OK</button>
+                    <a href="../index.php" class="mac-btn-secondary">Menú</a>
+                </div>
+            </form>
+
+            <?php if ($error): ?>
+                <div class="mac-alert-error"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
+        </div>
+
+        <div class="mac-scrollbar">
+            <div class="mac-scroll-arrow">◀</div>
+            <div class="mac-scroll-thumb"></div>
+            <div class="mac-scroll-arrow">▶</div>
+        </div>
+        <div class="mac-statusbar">
+            <span class="mac-status-counter">3 of 7</span>
+            <span>NÚMEROS REALES</span>
+            <span>STAT</span>
+        </div>
+    </section>
+
+    <!-- Ventana Derecha -->
+    <section class="mac-window">
+        <div class="mac-titlebar">
+            <a href="../index.php" class="mac-close-btn"></a>
+            <span class="mac-title-pill">Scrapbook — Medidas</span>
+        </div>
+
+        <div class="mac-window-body">
+            <?php if ($resultados): ?>
+                <div class="mac-output-frame">
+                    <p><strong>Promedio:</strong></p>
+                    <div class="mac-output-big"><?= round($resultados['promedio'], 4) ?></div>
+
+                    <p><strong>Mediana:</strong></p>
+                    <div class="mac-output-big"><?= round($resultados['mediana'], 4) ?></div>
+
+                    <p><strong>Moda:</strong></p>
+                    <div class="mac-output-big" style="font-size:1.2rem;"><?= htmlspecialchars($resultados['moda']) ?></div>
+                </div>
+            <?php else: ?>
+                <?= Layout::svgIlustracionScrapbook('Estadística') ?>
+            <?php endif; ?>
+        </div>
+
+        <div class="mac-scrollbar">
+            <div class="mac-scroll-arrow">◀</div>
+            <div class="mac-scroll-thumb"></div>
+            <div class="mac-scroll-arrow">▶</div>
+        </div>
+        <div class="mac-statusbar">
+            <span class="mac-status-counter">OUT</span>
+            <span>PROMEDIO / MEDIANA / MODA</span>
+            <span>PICT</span>
+        </div>
+    </section>
+</div>
+
+<?php renderFooter('ejercicio3', '../'); ?>

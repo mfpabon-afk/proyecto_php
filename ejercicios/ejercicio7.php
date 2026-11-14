@@ -75,75 +75,119 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $historial = $calc->obtenerHistorial();
 
-renderHeader('07. CALCULADORA', 'MÓDULO 07 // OPERACIONES E HISTORIAL EN SESIÓN', 'ejercicio7', '../');
+renderHeader('07. Calculadora', 'ejercicio7', '../');
 ?>
 
-<section class="work-panel">
-    <h2 class="section-label">Calculadora Aritmética</h2>
-    <form method="POST">
-        <div class="form-grid">
-            <div class="form-group">
-                <label for="num1">Primer número (entero o decimal):</label>
-                <input type="number" step="any" id="num1" name="num1" class="form-control" 
-                       value="<?= htmlspecialchars($num1) ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="operacion">Operación:</label>
-                <select id="operacion" name="operacion" class="form-control">
-                    <option value="suma" <?= $operacion === 'suma' ? 'selected' : '' ?>>Suma (+)</option>
-                    <option value="resta" <?= $operacion === 'resta' ? 'selected' : '' ?>>Resta (-)</option>
-                    <option value="multiplicacion" <?= $operacion === 'multiplicacion' ? 'selected' : '' ?>>Multiplicación (×)</option>
-                    <option value="division" <?= $operacion === 'division' ? 'selected' : '' ?>>División (÷)</option>
-                    <option value="porcentaje" <?= $operacion === 'porcentaje' ? 'selected' : '' ?>>Porcentaje (%)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="num2">Segundo número (entero o decimal):</label>
-                <input type="number" step="any" id="num2" name="num2" class="form-control" 
-                       value="<?= htmlspecialchars($num2) ?>" required>
-            </div>
+<div class="mac-workspace-grid">
+    <!-- Ventana Izquierda: Calculadora -->
+    <section class="mac-window">
+        <div class="mac-titlebar">
+            <a href="../index.php" class="mac-close-btn"></a>
+            <span class="mac-title-pill">Ejercicio 07 — Calculadora</span>
         </div>
-        <button type="submit" name="calcular" class="btn-recruit">CALCULAR</button>
-    </form>
 
-    <?php if ($error): ?>
-        <div class="alert-error"><?= htmlspecialchars($error) ?></div>
-    <?php elseif ($resultado !== null): ?>
-        <div class="result-box">
-            <h3>Resultado</h3>
-            <div class="result-highlight"><?= htmlspecialchars((string)$resultado) ?></div>
+        <div class="mac-window-body">
+            <form method="POST">
+                <div class="mac-form-group">
+                    <label for="num1">Primer número:</label>
+                    <input type="number" step="any" id="num1" name="num1" class="mac-input"
+                           value="<?= htmlspecialchars($num1) ?>" required>
+                </div>
+
+                <div class="mac-form-group">
+                    <label for="operacion">Operación:</label>
+                    <select id="operacion" name="operacion" class="mac-input">
+                        <option value="suma" <?= $operacion === 'suma' ? 'selected' : '' ?>>Suma (+)</option>
+                        <option value="resta" <?= $operacion === 'resta' ? 'selected' : '' ?>>Resta (-)</option>
+                        <option value="multiplicacion" <?= $operacion === 'multiplicacion' ? 'selected' : '' ?>>Multiplicación (×)</option>
+                        <option value="division" <?= $operacion === 'division' ? 'selected' : '' ?>>División (÷)</option>
+                        <option value="porcentaje" <?= $operacion === 'porcentaje' ? 'selected' : '' ?>>Porcentaje (%)</option>
+                    </select>
+                </div>
+
+                <div class="mac-form-group">
+                    <label for="num2">Segundo número:</label>
+                    <input type="number" step="any" id="num2" name="num2" class="mac-input"
+                           value="<?= htmlspecialchars($num2) ?>" required>
+                </div>
+
+                <div class="mac-btn-group">
+                    <button type="submit" name="calcular" class="mac-btn-primary">OK</button>
+                    <a href="../index.php" class="mac-btn-secondary">Menú</a>
+                </div>
+            </form>
+
+            <?php if ($error): ?>
+                <div class="mac-alert-error"><?= htmlspecialchars($error) ?></div>
+            <?php elseif ($resultado !== null): ?>
+                <div class="mac-output-big" style="margin-top:16px;">
+                    = <?= htmlspecialchars((string)$resultado) ?>
+                </div>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
-</section>
 
-<section class="work-panel">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-        <h2 class="section-label" style="margin-bottom:0;">Historial de Operaciones</h2>
-        <form method="POST">
-            <button type="submit" name="borrar_historial" class="btn-outline">BORRAR HISTORIAL</button>
-        </form>
-    </div>
+        <div class="mac-scrollbar">
+            <div class="mac-scroll-arrow">◀</div>
+            <div class="mac-scroll-thumb"></div>
+            <div class="mac-scroll-arrow">▶</div>
+        </div>
+        <div class="mac-statusbar">
+            <span class="mac-status-counter">7 of 7</span>
+            <span>CALCULADORA</span>
+            <span>CALC</span>
+        </div>
+    </section>
 
-    <?php if (empty($historial)): ?>
-        <p style="color:var(--text-muted);">No hay operaciones registradas en la sesión actual.</p>
-    <?php else: ?>
-        <table class="tactical-table">
-            <thead>
-                <tr>
-                    <th>Operación</th>
-                    <th>Resultado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($historial as $item): ?>
-                    <tr>
-                        <td><strong><?= htmlspecialchars($item['operacion']) ?></strong></td>
-                        <td style="color:var(--accent-red); font-weight:700;"><?= htmlspecialchars((string)$item['resultado']) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php endif; ?>
-</section>
+    <!-- Ventana Derecha: Historial de Operaciones -->
+    <section class="mac-window">
+        <div class="mac-titlebar">
+            <a href="../index.php" class="mac-close-btn"></a>
+            <span class="mac-title-pill">Scrapbook — Historial</span>
+        </div>
 
-<?php renderFooter('../'); ?>
+        <div class="mac-window-body">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <strong>Registro de sesión:</strong>
+                <form method="POST">
+                    <button type="submit" name="borrar_historial" class="mac-btn-secondary">Borrar Historial</button>
+                </form>
+            </div>
+
+            <?php if (empty($historial)): ?>
+                <?= Layout::svgIlustracionScrapbook('Historial vacío') ?>
+            <?php else: ?>
+                <div class="mac-output-frame">
+                    <table class="mac-table">
+                        <thead>
+                            <tr>
+                                <th>Operación</th>
+                                <th>Resultado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($historial as $item): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($item['operacion']) ?></td>
+                                    <td><strong><?= htmlspecialchars((string)$item['resultado']) ?></strong></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div class="mac-scrollbar">
+            <div class="mac-scroll-arrow">◀</div>
+            <div class="mac-scroll-thumb"></div>
+            <div class="mac-scroll-arrow">▶</div>
+        </div>
+        <div class="mac-statusbar">
+            <span class="mac-status-counter"><?= count($historial) ?> reg.</span>
+            <span>HISTORIAL CALCULADORA</span>
+            <span>PICT</span>
+        </div>
+    </section>
+</div>
+
+<?php renderFooter('ejercicio7', '../'); ?>

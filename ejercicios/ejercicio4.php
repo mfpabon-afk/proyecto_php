@@ -2,9 +2,7 @@
 require_once __DIR__ . '/../includes/layout.php';
 
 class Conjuntos {
-    /** @var int[] */
     private array $conjuntoA;
-    /** @var int[] */
     private array $conjuntoB;
 
     public function __construct(string $entradaA, string $entradaB) {
@@ -17,7 +15,7 @@ class Conjuntos {
         $enteros = [];
         foreach ($partes as $parte) {
             if (!is_numeric($parte) || intval($parte) != $parte) {
-                throw new InvalidArgumentException("El valor '{$parte}' no es un número entero válido.");
+                throw new InvalidArgumentException("El valor '{$parte}' no es un entero válido.");
             }
             $enteros[] = intval($parte);
         }
@@ -71,41 +69,88 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $formatear = fn(array $arr) => '{ ' . implode(', ', $arr) . ' }';
 
-renderHeader('04. CONJUNTOS', 'MÓDULO 04 // TEORÍA DE CONJUNTOS', 'ejercicio4', '../');
+renderHeader('04. Conjuntos', 'ejercicio4', '../');
 ?>
 
-<section class="work-panel">
-    <h2 class="section-label">Operaciones entre Conjuntos A y B</h2>
-    <form method="POST">
-        <div class="form-grid">
-            <div class="form-group">
-                <label for="conjunto_a">Conjunto A (enteros separados por coma o espacio):</label>
-                <input type="text" id="conjunto_a" name="conjunto_a" class="form-control" 
-                       value="<?= htmlspecialchars($entradaA) ?>" placeholder="Ej: 1, 2, 3, 4, 5" required>
-            </div>
-            <div class="form-group">
-                <label for="conjunto_b">Conjunto B (enteros separados por coma o espacio):</label>
-                <input type="text" id="conjunto_b" name="conjunto_b" class="form-control" 
-                       value="<?= htmlspecialchars($entradaB) ?>" placeholder="Ej: 4, 5, 6, 7, 8" required>
-            </div>
+<div class="mac-workspace-grid">
+    <!-- Ventana Izquierda -->
+    <section class="mac-window">
+        <div class="mac-titlebar">
+            <a href="../index.php" class="mac-close-btn"></a>
+            <span class="mac-title-pill">Ejercicio 04 — Conjuntos</span>
         </div>
-        <button type="submit" class="btn-recruit">CALCULAR OPERACIONES</button>
-    </form>
 
-    <?php if ($error): ?>
-        <div class="alert-error"><?= htmlspecialchars($error) ?></div>
-    <?php elseif ($res): ?>
-        <div class="result-box">
-            <h3>Resultados de Conjuntos</h3>
-            <p><strong>Conjunto A:</strong> <?= $formatear($res['A']) ?></p>
-            <p><strong>Conjunto B:</strong> <?= $formatear($res['B']) ?></p>
-            <hr style="border-color: rgba(255,255,255,0.15); margin: 12px 0;">
-            <p><strong>Unión (A ∪ B):</strong> <?= $formatear($res['union']) ?></p>
-            <p><strong>Intersección (A ∩ B):</strong> <?= $formatear($res['interseccion']) ?></p>
-            <p><strong>Diferencia (A - B):</strong> <?= $formatear($res['difAB']) ?></p>
-            <p><strong>Diferencia (B - A):</strong> <?= $formatear($res['difBA']) ?></p>
+        <div class="mac-window-body">
+            <form method="POST">
+                <div class="mac-form-group">
+                    <label for="conjunto_a">Conjunto A (enteros):</label>
+                    <input type="text" id="conjunto_a" name="conjunto_a" class="mac-input"
+                           value="<?= htmlspecialchars($entradaA) ?>" placeholder="Ej: 1, 2, 3, 4" required>
+                </div>
+
+                <div class="mac-form-group">
+                    <label for="conjunto_b">Conjunto B (enteros):</label>
+                    <input type="text" id="conjunto_b" name="conjunto_b" class="mac-input"
+                           value="<?= htmlspecialchars($entradaB) ?>" placeholder="Ej: 3, 4, 5, 6" required>
+                </div>
+
+                <div class="mac-btn-group">
+                    <button type="submit" class="mac-btn-primary">OK</button>
+                    <a href="../index.php" class="mac-btn-secondary">Menú</a>
+                </div>
+            </form>
+
+            <?php if ($error): ?>
+                <div class="mac-alert-error"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
-</section>
 
-<?php renderFooter('../'); ?>
+        <div class="mac-scrollbar">
+            <div class="mac-scroll-arrow">◀</div>
+            <div class="mac-scroll-thumb"></div>
+            <div class="mac-scroll-arrow">▶</div>
+        </div>
+        <div class="mac-statusbar">
+            <span class="mac-status-counter">4 of 7</span>
+            <span>TEORÍA DE CONJUNTOS</span>
+            <span>SETS</span>
+        </div>
+    </section>
+
+    <!-- Ventana Derecha -->
+    <section class="mac-window">
+        <div class="mac-titlebar">
+            <a href="../index.php" class="mac-close-btn"></a>
+            <span class="mac-title-pill">Scrapbook — Operaciones</span>
+        </div>
+
+        <div class="mac-window-body">
+            <?php if ($res): ?>
+                <div class="mac-output-frame">
+                    <p><strong>A:</strong> <?= $formatear($res['A']) ?> &nbsp;|&nbsp; <strong>B:</strong> <?= $formatear($res['B']) ?></p>
+                    <div class="mac-output-big" style="font-size:1.1rem;">
+                        Unión (A ∪ B): <?= $formatear($res['union']) ?><br><br>
+                        Intersección (A ∩ B): <?= $formatear($res['interseccion']) ?><br><br>
+                        Diferencia (A - B): <?= $formatear($res['difAB']) ?><br><br>
+                        Diferencia (B - A): <?= $formatear($res['difBA']) ?>
+                    </div>
+                </div>
+            <?php else: ?>
+                <?= Layout::svgIlustracionScrapbook('Conjuntos A y B') ?>
+            <?php endif; ?>
+        </div>
+
+        <div class="mac-scrollbar">
+            <div class="mac-scroll-arrow">◀</div>
+            <div class="mac-scroll-thumb"></div>
+            <div class="mac-scroll-arrow">▶</div>
+        </div>
+        <div class="mac-statusbar">
+            <span class="mac-status-counter">OUT</span>
+            <span>UNIÓN / INTERSECCIÓN / DIF.</span>
+            <span>PICT</span>
+        </div>
+    </section>
+</div>
+
+<?php renderFooter('ejercicio4', '../'); ?>

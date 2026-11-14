@@ -51,39 +51,87 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $numero !== '') {
     }
 }
 
-renderHeader('02. FIBONACCI / FACTORIAL', 'MÓDULO 02 // SERIES NUMÉRICAS', 'ejercicio2', '../');
+renderHeader('02. Fibonacci / Factorial', 'ejercicio2', '../');
 ?>
 
-<section class="work-panel">
-    <h2 class="section-label">Generador de Sucesiones</h2>
-    <form method="POST">
-        <div class="form-grid">
-            <div class="form-group">
-                <label for="numero">Número entero (N):</label>
-                <input type="number" id="numero" name="numero" min="0" max="50" class="form-control" 
-                       value="<?= htmlspecialchars($numero) ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="operacion">Seleccione la operación:</label>
-                <select id="operacion" name="operacion" class="form-control">
-                    <option value="fibonacci" <?= $operacion === 'fibonacci' ? 'selected' : '' ?>>Sucesión de Fibonacci</option>
-                    <option value="factorial" <?= $operacion === 'factorial' ? 'selected' : '' ?>>Serie Factorial (1! hasta N!)</option>
-                </select>
-            </div>
+<div class="mac-workspace-grid">
+    <!-- Ventana Izquierda -->
+    <section class="mac-window">
+        <div class="mac-titlebar">
+            <a href="../index.php" class="mac-close-btn"></a>
+            <span class="mac-title-pill">Ejercicio 02 — Sucesiones</span>
         </div>
-        <button type="submit" class="btn-recruit">CALCULAR SERIE</button>
-    </form>
 
-    <?php if ($error): ?>
-        <div class="alert-error"><?= htmlspecialchars($error) ?></div>
-    <?php elseif ($serie !== null): ?>
-        <div class="result-box">
-            <h3>Serie Resultante (<?= strtoupper(htmlspecialchars($operacion)) ?>)</h3>
-            <p style="font-size: 1.25rem; font-weight: 600; letter-spacing: 1px;">
-                <?= empty($serie) ? 'Sin elementos (N = 0)' : htmlspecialchars(implode(' , ', $serie)) ?>
-            </p>
+        <div class="mac-window-body">
+            <form method="POST">
+                <div class="mac-form-group">
+                    <label for="numero">Número entero (N):</label>
+                    <input type="number" id="numero" name="numero" min="0" max="50" class="mac-input"
+                           value="<?= htmlspecialchars($numero) ?>" required>
+                </div>
+
+                <div class="mac-form-group">
+                    <label for="operacion">Operación:</label>
+                    <select id="operacion" name="operacion" class="mac-input">
+                        <option value="fibonacci" <?= $operacion === 'fibonacci' ? 'selected' : '' ?>>Sucesión de Fibonacci</option>
+                        <option value="factorial" <?= $operacion === 'factorial' ? 'selected' : '' ?>>Factorial (1! hasta N!)</option>
+                    </select>
+                </div>
+
+                <div class="mac-btn-group">
+                    <button type="submit" class="mac-btn-primary">OK</button>
+                    <a href="../index.php" class="mac-btn-secondary">Menú</a>
+                </div>
+            </form>
+
+            <?php if ($error): ?>
+                <div class="mac-alert-error"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
-</section>
 
-<?php renderFooter('../'); ?>
+        <div class="mac-scrollbar">
+            <div class="mac-scroll-arrow">◀</div>
+            <div class="mac-scroll-thumb"></div>
+            <div class="mac-scroll-arrow">▶</div>
+        </div>
+        <div class="mac-statusbar">
+            <span class="mac-status-counter">2 of 7</span>
+            <span>FIBONACCI / FACTORIAL</span>
+            <span>MATH</span>
+        </div>
+    </section>
+
+    <!-- Ventana Derecha -->
+    <section class="mac-window">
+        <div class="mac-titlebar">
+            <a href="../index.php" class="mac-close-btn"></a>
+            <span class="mac-title-pill">Scrapbook — Serie</span>
+        </div>
+
+        <div class="mac-window-body">
+            <?php if ($serie !== null): ?>
+                <div class="mac-output-frame">
+                    <p><strong>Operación:</strong> <?= strtoupper(htmlspecialchars($operacion)) ?></p>
+                    <div class="mac-output-big" style="font-size:1.15rem;">
+                        <?= empty($serie) ? 'Sin elementos (N = 0)' : htmlspecialchars(implode(', ', $serie)) ?>
+                    </div>
+                </div>
+            <?php else: ?>
+                <?= Layout::svgIlustracionScrapbook('Sucesión') ?>
+            <?php endif; ?>
+        </div>
+
+        <div class="mac-scrollbar">
+            <div class="mac-scroll-arrow">◀</div>
+            <div class="mac-scroll-thumb"></div>
+            <div class="mac-scroll-arrow">▶</div>
+        </div>
+        <div class="mac-statusbar">
+            <span class="mac-status-counter">OUT</span>
+            <span>SERIE CALCULADA</span>
+            <span>PICT</span>
+        </div>
+    </section>
+</div>
+
+<?php renderFooter('ejercicio2', '../'); ?>

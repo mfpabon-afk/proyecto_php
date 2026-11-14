@@ -24,7 +24,7 @@ class ConversorBinario {
         while ($valor > 0) {
             $residuo = $valor % 2;
             $cociente = intdiv($valor, 2);
-            $pasos[] = "{$valor} ÷ 2 = {$cociente} (Residuo: {$residuo})";
+            $pasos[] = "{$valor} ÷ 2 = {$cociente} (Res: {$residuo})";
             $binario = $residuo . $binario;
             $valor = $cociente;
         }
@@ -48,32 +48,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $numero !== '') {
     $conversion = $conversor->convertir();
 }
 
-renderHeader('05. BINARIO', 'MÓDULO 05 // CONVERSIÓN DE BASE NUMÉRICA', 'ejercicio5', '../');
+renderHeader('05. Binario', 'ejercicio5', '../');
 ?>
 
-<section class="work-panel">
-    <h2 class="section-label">Convertir Número Entero a Binario</h2>
-    <form method="POST">
-        <div class="form-group">
-            <label for="numero">Número entero decimal:</label>
-            <input type="number" id="numero" name="numero" class="form-control" 
-                   value="<?= htmlspecialchars($numero) ?>" placeholder="Ej: 42" required>
+<div class="mac-workspace-grid">
+    <!-- Ventana Izquierda -->
+    <section class="mac-window">
+        <div class="mac-titlebar">
+            <a href="../index.php" class="mac-close-btn"></a>
+            <span class="mac-title-pill">Ejercicio 05 — Binario</span>
         </div>
-        <button type="submit" class="btn-recruit">CONVERTIR A BINARIO</button>
-    </form>
 
-    <?php if ($conversion !== null): ?>
-        <div class="result-box">
-            <h3>Equivalente Binario</h3>
-            <div class="result-highlight"><?= htmlspecialchars($conversion['binario']) ?></div>
-            <p style="margin-top:12px; font-size:0.9rem; color:#BDBCB7;">Proceso de divisiones sucesivas:</p>
-            <ul style="margin-left:20px; margin-top:6px; font-size:0.9rem;">
-                <?php foreach ($conversion['pasos'] as $paso): ?>
-                    <li><?= htmlspecialchars($paso) ?></li>
-                <?php endforeach; ?>
-            </ul>
+        <div class="mac-window-body">
+            <form method="POST">
+                <div class="mac-form-group">
+                    <label for="numero">Número entero decimal:</label>
+                    <input type="number" id="numero" name="numero" class="mac-input"
+                           value="<?= htmlspecialchars($numero) ?>" placeholder="Ej: 42" required>
+                </div>
+
+                <div class="mac-btn-group">
+                    <button type="submit" class="mac-btn-primary">OK</button>
+                    <a href="../index.php" class="mac-btn-secondary">Menú</a>
+                </div>
+            </form>
         </div>
-    <?php endif; ?>
-</section>
 
-<?php renderFooter('../'); ?>
+        <div class="mac-scrollbar">
+            <div class="mac-scroll-arrow">◀</div>
+            <div class="mac-scroll-thumb"></div>
+            <div class="mac-scroll-arrow">▶</div>
+        </div>
+        <div class="mac-statusbar">
+            <span class="mac-status-counter">5 of 7</span>
+            <span>BASE 10 → BASE 2</span>
+            <span>BIN</span>
+        </div>
+    </section>
+
+    <!-- Ventana Derecha -->
+    <section class="mac-window">
+        <div class="mac-titlebar">
+            <a href="../index.php" class="mac-close-btn"></a>
+            <span class="mac-title-pill">Scrapbook — Binario</span>
+        </div>
+
+        <div class="mac-window-body">
+            <?php if ($conversion !== null): ?>
+                <div class="mac-output-frame">
+                    <p><strong>Decimal:</strong> <?= htmlspecialchars($numero) ?></p>
+                    <div class="mac-output-big"><?= htmlspecialchars($conversion['binario']) ?></div>
+                    <p><strong>Divisiones sucesivas:</strong></p>
+                    <ul style="margin-left:20px; margin-top:4px;">
+                        <?php foreach ($conversion['pasos'] as $paso): ?>
+                            <li><?= htmlspecialchars($paso) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php else: ?>
+                <?= Layout::svgIlustracionScrapbook('Binario') ?>
+            <?php endif; ?>
+        </div>
+
+        <div class="mac-scrollbar">
+            <div class="mac-scroll-arrow">◀</div>
+            <div class="mac-scroll-thumb"></div>
+            <div class="mac-scroll-arrow">▶</div>
+        </div>
+        <div class="mac-statusbar">
+            <span class="mac-status-counter">OUT</span>
+            <span>NÚMERO EN BINARIO</span>
+            <span>PICT</span>
+        </div>
+    </section>
+</div>
+
+<?php renderFooter('ejercicio5', '../'); ?>
